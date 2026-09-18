@@ -1,0 +1,31 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Main Panel",
+        "description": "Creates one \"Main Panel\" device from the existing Shelly Pro 3EM entities. No input needed -- just confirms the source entities exist."
+      }
+    },
+    "error": {
+      "cannot_connect": "One or more of the required Shelly Pro 3EM entities weren't found. Confirm the shelly integration is set up and its entities exist before retrying."
+    },
+    "abort": {
+      "already_configured": "Main Panel is already configured."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "total_power": { "name": "Total Power" },
+      "phase_a_power": { "name": "Phase A Power" },
+      "phase_b_power": { "name": "Phase B Power" },
+      "phase_a_apparent_power": { "name": "Phase A Apparent Power" },
+      "phase_b_apparent_power": { "name": "Phase B Apparent Power" },
+      "total_apparent_power": { "name": "Total Apparent Power" },
+      "phase_a_power_factor": { "name": "Phase A Power Factor" },
+      "phase_b_power_factor": { "name": "Phase B Power Factor" },
+      "total_power_factor": { "name": "Total Power Factor" },
+      "temperature": { "name": "Temperature" },
+      "total_energy": { "name": "Total Energy" }
+    }
+  }
+}
