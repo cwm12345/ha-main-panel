@@ -8,6 +8,7 @@ source data is already live in HA's own state machine, published by the
 native `shelly` integration. The formulas match the "Main Panel *" template
 sensors this replaced.
 """
+
 from __future__ import annotations
 
 from homeassistant.components.sensor import (
@@ -51,33 +52,54 @@ async def async_setup_entry(
             PhaseAPowerSensor(entry),
             PhaseBPowerSensor(entry),
             _PassthroughSensor(
-                entry, "phase_a_apparent_power", SRC_L1_APPARENT_POWER,
-                SensorDeviceClass.APPARENT_POWER, UnitOfApparentPower.VOLT_AMPERE,
+                entry,
+                "phase_a_apparent_power",
+                SRC_L1_APPARENT_POWER,
+                SensorDeviceClass.APPARENT_POWER,
+                UnitOfApparentPower.VOLT_AMPERE,
             ),
             _PassthroughSensor(
-                entry, "phase_b_apparent_power", SRC_L2_APPARENT_POWER,
-                SensorDeviceClass.APPARENT_POWER, UnitOfApparentPower.VOLT_AMPERE,
+                entry,
+                "phase_b_apparent_power",
+                SRC_L2_APPARENT_POWER,
+                SensorDeviceClass.APPARENT_POWER,
+                UnitOfApparentPower.VOLT_AMPERE,
             ),
             _PassthroughSensor(
-                entry, "phase_a_power_factor", SRC_L1_POWER_FACTOR,
-                SensorDeviceClass.POWER_FACTOR, None,
+                entry,
+                "phase_a_power_factor",
+                SRC_L1_POWER_FACTOR,
+                SensorDeviceClass.POWER_FACTOR,
+                None,
             ),
             _PassthroughSensor(
-                entry, "phase_b_power_factor", SRC_L2_POWER_FACTOR,
-                SensorDeviceClass.POWER_FACTOR, None,
+                entry,
+                "phase_b_power_factor",
+                SRC_L2_POWER_FACTOR,
+                SensorDeviceClass.POWER_FACTOR,
+                None,
             ),
             _PassthroughSensor(
-                entry, "temperature", SRC_TEMPERATURE,
-                SensorDeviceClass.TEMPERATURE, UnitOfTemperature.FAHRENHEIT,
+                entry,
+                "temperature",
+                SRC_TEMPERATURE,
+                SensorDeviceClass.TEMPERATURE,
+                UnitOfTemperature.FAHRENHEIT,
             ),
             _PassthroughSensor(
-                entry, "phase_a_energy", SRC_L1_ENERGY,
-                SensorDeviceClass.ENERGY, UnitOfEnergy.KILO_WATT_HOUR,
+                entry,
+                "phase_a_energy",
+                SRC_L1_ENERGY,
+                SensorDeviceClass.ENERGY,
+                UnitOfEnergy.KILO_WATT_HOUR,
                 state_class=SensorStateClass.TOTAL_INCREASING,
             ),
             _PassthroughSensor(
-                entry, "phase_b_energy", SRC_L2_ENERGY,
-                SensorDeviceClass.ENERGY, UnitOfEnergy.KILO_WATT_HOUR,
+                entry,
+                "phase_b_energy",
+                SRC_L2_ENERGY,
+                SensorDeviceClass.ENERGY,
+                UnitOfEnergy.KILO_WATT_HOUR,
                 state_class=SensorStateClass.TOTAL_INCREASING,
             ),
             TotalApparentPowerSensor(entry),
@@ -103,9 +125,7 @@ class _ComputedSensor(MainPanelEntity, SensorEntity):
 
     _attr_state_class = SensorStateClass.MEASUREMENT
 
-    def __init__(
-        self, entry: ConfigEntry, key: str, sources: list[str]
-    ) -> None:
+    def __init__(self, entry: ConfigEntry, key: str, sources: list[str]) -> None:
         super().__init__(entry)
         self._sources = sources
         self._attr_translation_key = key
@@ -173,7 +193,9 @@ class TotalPowerSensor(_CorrectedPowerSensor):
         super().__init__(entry, "total_power", [SRC_L1_POWER_RAW, SRC_L2_POWER_RAW])
 
     def _compute(self) -> float:
-        raw = _float_state(self.hass, SRC_L1_POWER_RAW) + _float_state(self.hass, SRC_L2_POWER_RAW)
+        raw = _float_state(self.hass, SRC_L1_POWER_RAW) + _float_state(
+            self.hass, SRC_L2_POWER_RAW
+        )
         return raw * CT_CLAMP_CORRECTION_FACTOR
 
 
@@ -282,7 +304,9 @@ class TotalEnergySensor(MainPanelEntity, SensorEntity, RestoreEntity):
         self._offset_kwh = 0.0
 
     def _phase_sum_kwh(self) -> float:
-        return _float_state(self.hass, SRC_L1_ENERGY) + _float_state(self.hass, SRC_L2_ENERGY)
+        return _float_state(self.hass, SRC_L1_ENERGY) + _float_state(
+            self.hass, SRC_L2_ENERGY
+        )
 
     async def async_added_to_hass(self) -> None:
         await super().async_added_to_hass()
