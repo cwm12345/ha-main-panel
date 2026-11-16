@@ -5,7 +5,7 @@ No host/credentials to collect -- there's only one main panel, and its
 data already lives in HA's own state machine (the native Shelly Pro 3EM
 integration). The flow just confirms every source entity actually exists
 before creating the entry, same "don't silently create a broken setup"
-principle as every other integration built this session.
+principle as a device integration that validates its connection.
 """
 
 from __future__ import annotations
