@@ -7,6 +7,7 @@ integration). The flow just confirms every source entity actually exists
 before creating the entry, same "don't silently create a broken setup"
 principle as every other integration built this session.
 """
+
 from __future__ import annotations
 
 from typing import Any
@@ -34,9 +35,7 @@ class MainPanelConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         errors: dict[str, str] = {}
         if user_input is not None:
-            missing = [
-                src for src in ALL_SOURCES if self.hass.states.get(src) is None
-            ]
+            missing = [src for src in ALL_SOURCES if self.hass.states.get(src) is None]
             if missing:
                 errors["base"] = "cannot_connect"
             else:

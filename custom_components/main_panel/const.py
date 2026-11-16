@@ -14,6 +14,7 @@ source data is already live in HA's own state machine.
 
 The formulas match the "Main Panel *" template sensors this replaced.
 """
+
 from __future__ import annotations
 
 DOMAIN = "main_panel"
