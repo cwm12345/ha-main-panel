@@ -1,5 +1,6 @@
 # Written by Claude, guided by Chris.
 """Shared entity base for the Main Panel integration."""
+
 from __future__ import annotations
 
 from homeassistant.config_entries import ConfigEntry

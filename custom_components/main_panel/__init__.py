@@ -5,6 +5,7 @@ No coordinator -- nothing to poll. Entities are event-driven (see
 sensor.py), reacting to the existing Shelly Pro 3EM entities' own state
 changes via HA's state-tracking helpers, not fetching anything themselves.
 """
+
 from __future__ import annotations
 
 from homeassistant.config_entries import ConfigEntry

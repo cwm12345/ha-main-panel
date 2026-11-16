@@ -1,10 +1,12 @@
 {
   "domain": "main_panel",
   "name": "Main Panel",
-  "version": "0.1.0",
-  "config_flow": true,
-  "documentation": "",
-  "requirements": [],
   "codeowners": [],
-  "iot_class": "local_push"
+  "config_flow": true,
+  "documentation": "https://github.com/cwm12345/ha-main-panel",
+  "integration_type": "device",
+  "iot_class": "calculated",
+  "issue_tracker": "https://github.com/cwm12345/ha-main-panel/issues",
+  "requirements": [],
+  "version": "0.2.0"
 }
