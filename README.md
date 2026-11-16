@@ -43,33 +43,45 @@ machine).
 
 ## What it does
 
-One config entry (there's only one main panel), one device, 11 sensors:
+One config entry (there's only one main panel), one device, 13 sensors:
 total/phase-A/phase-B power (W), phase-A/phase-B/total apparent power
 (VA), phase-A/phase-B/total power factor (unitless 0–1), temperature
-(°F), and total energy (kWh, `total_increasing`) — a trapezoidal
-(Riemann-sum) integration of total power over time, reimplementing what
-HA's built-in `integration:` platform does internally since that platform
-isn't designed to be instantiated by another integration. It uses
-`RestoreEntity` to persist the running total across restarts, so a
-restart doesn't silently zero out your cumulative energy number. Formulas
-and source entity_ids are in `const.py`.
+(°F), phase-A/phase-B energy (kWh), and total energy (kWh,
+`total_increasing`).
+
+- **Power** is the Shelly's raw per-phase reading times
+  `CT_CLAMP_CORRECTION_FACTOR` (12 here: this meter's CT clamps read low by a
+  fixed ratio). Use 1 if yours are set up correctly.
+- **Energy** comes from the Shelly's own hardware energy counters, which the
+  `shelly` integration disables by default; enable them. Total energy sums
+  the two phases, and uses `RestoreEntity` so the running total carries
+  across restarts. (Earlier versions estimated energy by integrating power
+  over time; the hardware counters are more accurate.)
+
+Formulas and source entity_ids are in `const.py`.
 
 ## Adapting this to your setup
 
 **This integration is not plug-and-play** — `const.py` hardcodes the
-source `entity_id`s it reads from (`sensor.shelly_l1_power_corrected`,
+source `entity_id`s it reads from (`sensor.main_panel_meter_l1_power`,
 etc.), matching my own Shelly Pro 3EM entity naming. To use this, you'll
 need to edit `const.py`'s `SRC_*` constants to point at your own
-equivalent source entities, and adjust the formulas in `sensor.py` if
-your source data shapes differently. It's published as a working pattern
+equivalent source entities, set `CT_CLAMP_CORRECTION_FACTOR` (1 if your
+clamps read correctly), enable the Shelly's energy entities, and adjust
+the formulas in `sensor.py` if your source data shapes differently. It's published as a working pattern
 for "wrap ungrouped template-style sensors in a real device," not as a
 generic main-panel integration for arbitrary hardware.
 
 ## Installation
 
-**Via HACS (custom repository):** HACS → Integrations → ⋮ → Custom
-repositories → add this repo's URL, category "Integration" → install
-"Main Panel" → restart HA.
+**With HACS:**
+
+1. In Home Assistant, open **HACS**, then the **⋮** menu (top right) →
+   **Custom repositories**.
+2. Repository: `https://github.com/cwm12345/ha-main-panel`, type:
+   **Integration**. Click **Add**.
+3. Search HACS for **Main Panel**, open it and click **Download**.
+4. Restart Home Assistant.
 
 **Manual:** copy `custom_components/main_panel/` into your HA config's
 `custom_components/` directory → restart HA.
