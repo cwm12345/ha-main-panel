@@ -25,6 +25,8 @@
       "phase_b_power_factor": { "name": "Phase B Power Factor" },
       "total_power_factor": { "name": "Total Power Factor" },
       "temperature": { "name": "Temperature" },
+      "phase_a_energy": { "name": "Phase A Energy" },
+      "phase_b_energy": { "name": "Phase B Energy" },
       "total_energy": { "name": "Total Energy" }
     }
   }
